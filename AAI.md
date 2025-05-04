@@ -252,9 +252,112 @@ GANs consist of two neural networks: a **generator** and a **discriminator**. Th
 ### 7. Applications
 
 - **Image synthesis:**  
-  Creating new, realistic images from random noise.
+  GANs are widely used to generate new, realistic images from random noise, leveraging their ability to learn complex data distributions and produce high-quality visual content.
+
 - **Style transfer:**  
-  Changing the style of an image (e.g., turning a photo into a painting).
+  GANs facilitate the transformation of an image's style, such as converting a photograph into a painting, by learning and applying the stylistic features of one image onto another while preserving the original content.
+
 - **Other applications:**  
-  Data augmentation, super-resolution, image inpainting, and more.
+  Beyond image synthesis and style transfer, GANs are employed in data augmentation, enhancing image resolution (super-resolution), filling in missing parts of images (image inpainting), and various other creative and practical tasks.
+
+# Variational Autoencoders (07 Hours)
+
+### 1. Architecture and Training of VAEs
+- **Architecture:**
+  - Input layer → Encoder layers → Latent space → Decoder layers → Output layer
+  - Usually implemented using neural networks
+  - Includes a "reparameterization trick" to allow backpropagation
+  
+- **Training Process:**
+  1. Input data is encoded into latent space parameters
+  2. Random sampling from the latent distribution using reparameterization
+  3. Decoder reconstructs the input from the sampled latent vector
+  4. Loss is computed and backpropagated
+  5. Weights are updated to minimize loss
+
+### 2. The Loss Function
+VAE loss consists of two terms:
+1. **Reconstruction Loss:**
+   - Measures how well the decoder reconstructs the input
+   - Usually binary cross-entropy or mean squared error
+   \[ L_{reconstruction} = \|x - \hat{x}\|^2 \]
+
+2. **KL Divergence Loss:**
+   - Ensures the latent space distribution matches a prior (usually standard normal)
+   - Regularizes the latent space
+   \[ L_{KL} = D_{KL}(q_\phi(z|x) \| p(z)) \]
+
+Total Loss:
+\[ L_{total} = L_{reconstruction} + \beta L_{KL} \]
+where β is a hyperparameter balancing the two terms.
+
+### 3. Latent Space Representation and Inference
+- **Latent Space Properties:**
+  - Continuous and smooth
+  - Meaningful interpolation between points
+  - Disentangled representations (with β-VAE variants)
+- **Inference:**
+  - Encode new data points into latent space
+  - Sample from latent space to generate new data
+  - Interpolate between encodings for smooth transitions
+
+### 4. Applications of VAEs in Image Generation
+- Generating new images
+- Image manipulation and editing
+- Face morphing and attribute manipulation
+- Data compression
+- Anomaly detection
+
+## Types of Autoencoders
+
+### 1. Undercomplete Autoencoders
+- **Structure:** Hidden layer smaller than input layer
+- **Purpose:** Learn compressed representations of data
+- **Features:**
+  - Forces learning of most important features
+  - Can be used for dimensionality reduction
+  - Risk of learning identity function if too powerful
+
+### 2. Sparse Autoencoders
+- **Structure:** Hidden layer may be larger than input
+- **Features:**
+  - Adds sparsity penalty to hidden layer activations
+  - Only a small number of neurons activate for each input
+  - Learns useful features even with large hidden layers
+- **Applications:** Feature learning, pattern recognition
+
+### 3. Contractive Autoencoders
+- **Structure:** Adds regularization term to make encodings robust
+- **Features:**
+  - Penalizes sensitive directions in encoding
+  - Makes representations robust to small input variations
+  - Learns locally invariant features
+- **Applications:** Robust feature extraction
+
+### 4. Denoising Autoencoders
+- **Structure:** Trained to reconstruct clean data from noisy input
+- **Features:**
+  - Adds noise to input during training
+  - Learns to remove noise and recover original data
+  - More robust representations
+- **Applications:** Image denoising, data cleaning
+
+### 5. Variational Autoencoders (for generative modeling)
+- **Structure:** Probabilistic version of autoencoder
+- **Features:**
+  - Learns probability distribution of data
+  - Can generate new samples
+  - Continuous latent space
+- **Applications:**
+  - Image generation
+  - Data synthesis
+  - Feature interpolation
+  - Anomaly detection
+
+**Key Differences from Regular Autoencoders:**
+1. Probabilistic nature
+2. Ability to generate new data
+3. Continuous latent space
+4. More complex loss function
+5. Use of reparameterization trick
 
